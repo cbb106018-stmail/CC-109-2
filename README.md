@@ -2,9 +2,7 @@
 
 author: CBB106018
 
-
 ---
-
 
 > Practice for course: Cloud Computing.
 
