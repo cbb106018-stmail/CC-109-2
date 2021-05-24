@@ -1,0 +1,121 @@
+version: '3.9'
+
+services:
+
+        nginx:
+                image: nginx
+                ports:
+                        - 80:80
+                networks:
+                        - default
+                        - web_request
+                depends_on:
+                        - create_user
+                        - list_user
+
+        database_primary:
+                container_name: primary_mongodb
+                image: mongo
+                volumes:
+                        - database/config/mongod.yml:/resource/mongod.yml
+                        - database/data/primary:/data/db
+                expose:
+                        - 27010:27010
+                networks:
+                        - databases
+                entrypoint:
+                        ['mongod', '--replSet', 'RSDB', '--port', '27010', '--dbpath', '/data/db', '--config', '/resource/mongod.yml']
+
+        database_write:
+                container_name: writer_mongodb
+                image: mongo
+                volumes:
+                        - database/config/mongod.yml:/resource/mongod.yml
+                        - database/data/writer
+                expose:
+                        - 27017:27017
+                networks:
+                        - databases
+                        - creating
+                entrypoint:
+                        ['mongod', '--replSet', 'RSDB', '--port', '27017', '--dbpath', '/data/db', '--config', '/resource/mongod.yml']
+                depends_on:
+                        - database_primary
+
+        database_read:
+                container_name: reader_mongodb
+                image: mongo
+                volumes:
+                        - database/config/mongod.yml:/resource/mongod.yml
+                        - database/data/reader:/data/db
+                expose:
+                        - 27018:27018
+                networks:
+                        - databases
+                        - listing
+                entrypoint:
+                        ['mongod', '--replSet', 'RSDB', '--port', '27018', '--dbpath', '/data/db', '--config', '/resource/mongod.yml']
+                depends_on:
+                        - database_primary
+
+        create_user:
+                container_name: user_creating_service
+                build: create_user
+                volumes:
+                        - create_user:/create_user
+                expose:
+                        - 5000:5000
+                networks:
+                        - web_request
+                        - creating
+                depends_on:
+                        - create_queue
+
+        create_queue:
+                container_name: create_queue_rabbitmq
+                image: rabbitmq
+                expose:
+                        - 5672:5672
+                networks:
+                        - creating
+
+        data_handler:
+                contaner_name: data_handler_service
+                build: handle_data
+                volumes:
+                        - handle_data:/handle_data
+                expose:
+                        - 27017:27017
+                networks:
+                        - creating
+                depends_on:
+                        - database_write
+
+        list_users:
+                container_name: user_listing_service
+                build: list_user
+                volumes:
+                        - list_user:/list_user
+                expose:
+                        - 5001:5001
+                nerworks:
+                        - creating
+                depends_on:
+                        - database_read
+
+networks:
+        default:
+                name: external_network
+
+        databases:
+                name: databases_internal
+
+        web_request:
+                name: web_request_internal
+
+        creating:
+                name: crating_internal
+
+        listing:
+                name: listing_internal
+
