@@ -93,6 +93,7 @@ services:
                 networks:
                         - creating
                 depends_on:
+                        - create_queue
                         - database_write
                 restart: on-failure
 

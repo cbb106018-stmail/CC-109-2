@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flask,python,database
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask,python,database
 
+### vim ###
+*.swp
+
 ### Database ###
 *.accdb
 *.db
@@ -9,6 +12,7 @@
 *.mdb
 *.pdb
 *.sqlite3
+database/data
 
 ### Flask ###
 instance/*
