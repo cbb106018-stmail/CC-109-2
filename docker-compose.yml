@@ -104,7 +104,8 @@ services:
                 expose:
                         - 5001
                 networks:
-                        - creating
+                        - web_request
+                        - listing
                 depends_on:
                         - database_read
 
