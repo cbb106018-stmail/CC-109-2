@@ -1,3 +1,4 @@
+from flask import json
 import pika
 
 def pass_on(user_info):

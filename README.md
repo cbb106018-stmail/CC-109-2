@@ -6,6 +6,39 @@ author: CBB106018
 
 > Practice for course: Cloud Computing.
 
+# Deployment
+
+## Demo
+This is an instance here, you can trying send request to get response.
+
+> It only supports http request right now.
+
+### IP Address
+
+	35.194.201.93
+
+### GET Method
+
+	/list_users
+
+### POST Method
+
+	/create_user?username='value1'&password="value2"
+
+## Docker Compose
+### Start-up
+Argument `-d` means run as daemon.
+
+	docker-compose up -d 
+
+### Shut-down
+
+	docker-compose down
+
+### Rebuild
+Rebuild after editing docker-compose.yml or Dockerfile.
+
+	add `--rebuild` arg
 
 # Summary
 
