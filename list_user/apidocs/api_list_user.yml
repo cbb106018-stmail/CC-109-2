@@ -1,0 +1,31 @@
+This is an endpoint for testing request body documentation.
+---
+description: User recongnition, request Token.
+parameters:
+        - name: body
+          in: body
+          required: True
+          schema:
+                  required:
+                          - username
+                          - password
+                  properties:
+                          username:
+                                  type: string
+                                  description: username
+                                  example: "cbb106018"
+                          password:
+                                  type: string
+                                  example: "passphrase"
+
+responses:
+        200:
+                description: request processed successfully
+                schema:
+                        properties:
+                                success:
+                                        type: boolean
+                                        example: True
+                                message:
+                                        type: string
+                                        example: user created
