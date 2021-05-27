@@ -9,7 +9,8 @@ author: CBB106018
 # Deployment
 
 ## Demo
-This is an instance here, you can trying send request to get response.
+This is an instance here, you can trying send request to get response.<br>
+With correct data format, you'll get `200 response`; or you'll get back `400/500 response w/ error message`.
 
 > It only supports http request right now.
 

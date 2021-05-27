@@ -2,6 +2,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flask,python,database
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask,python,database
 
+### development environment ###
+build_development.yml
+dev_nginx/
+
 ### vim ###
 *.swp
 

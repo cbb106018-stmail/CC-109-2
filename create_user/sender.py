@@ -18,3 +18,4 @@ def pass_on(user_info):
             delivery_mode=2,
         ))
     connection.close()
+    return True

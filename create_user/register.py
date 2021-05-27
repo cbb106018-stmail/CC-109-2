@@ -10,6 +10,7 @@ swagger = Swagger(app)
 @swag_from('apidocs/api_create_user.yml')
 def create_user():
     isExistingData = False
+    isRequestCompleted = False
     user_info = dict()
 
     jsonobj = request.get_json()
@@ -26,11 +27,15 @@ def create_user():
     if isExistingData:
         user_info['username'] = username
         user_info['password'] = password
-        pass_on(user_info)
+        isRequestCompleted = pass_on(user_info) or False
 
-        res['success'] = True
-        res['message'] = 'User created successfully: ' + username + ' .'
-        res = make_response(jsonify(res), 200)
+        if isRequestCompleted:
+            res['success'] = True
+            res['message'] = 'User created successfully: ' + username + ' .'
+            res = make_response(jsonify(res), 200)
+        else:
+            res['success'] = False
+            res['message'] = 'Error occurred when proccessing request.'
     else:
         res['success'] = False
         res['message'] = 'Error occurred when parsing data.'
