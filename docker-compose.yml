@@ -88,8 +88,6 @@ services:
                 build: handle_data
                 volumes:
                         - ./handle_data:/handle_data
-                expose:
-                        - 27017
                 networks:
                         - creating
                 depends_on:

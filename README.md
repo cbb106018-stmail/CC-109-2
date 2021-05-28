@@ -28,7 +28,7 @@ With correct data format, you'll get `200 response`; or you'll get back `400/500
 
 ## Docker Compose
 ### Start-up
-Argument `-d` means run as daemon.
+Argument `-d` means run as daemon / detach mode.
 
 	docker-compose up -d 
 
@@ -54,3 +54,10 @@ Using Docker to implement microservice architecture.
 
 ## Main part
 Docker based services.
+
+## docker-compose.yml
+Settings of docker-compose.
+
+## networks
+
+![docker-compose networks](https://i.imgur.com/PZ1eZ0M.png)
