@@ -26,6 +26,22 @@ services:
                         - databases
                 entrypoint:
                         ['mongod', '--replSet', 'RSDB', '--port', '27010', '--dbpath', '/data/db', '--config', '/resource/mongod.yml']
+                healthcheck:
+                        test:
+                                [
+                                "CMD",
+                                "mongo",
+                                "--host",
+                                "database_primary",
+                                "--port",
+                                "27010",
+                                "--eval",
+                                'rs.initiate({"_id":"RSDB","members":[{"_id":0,"host":"database_primary:27010"},{"_id":1,"host":"database_write:27017"},{"_id":2,"host":"database_read:27018"}]});'
+                                ]
+                        interval: 15s
+                        start_period: 30s
+                        retries: 3
+                        timeout: 10s
 
         database_write:
                 container_name: writer_mongodb

@@ -18,6 +18,8 @@ With correct data format, you'll get `200 response`; or you'll get back `400/500
 
 	35.194.201.93
 
+Use Postman to send request.
+
 ### GET Method
 
 	/list_users
@@ -25,6 +27,16 @@ With correct data format, you'll get `200 response`; or you'll get back `400/500
 ### POST Method
 
 	/create_user?username='value1'&password="value2"
+
+or use cURL
+
+### GET Method
+
+	curl -X GET http://35.194.201.93/list_users
+
+### POST Method
+
+	curl -X POST -H "Content-Type: application/json" -d '{"username": "username", "password": "password"}' http://35.194.201.93/create_user
 
 ## Docker Compose
 ### Start-up
@@ -57,6 +69,16 @@ Docker based services.
 
 ## docker-compose.yml
 Settings of docker-compose.
+
+### mongodb
+
+#### entrypoint
+
+> Set each machine to replica and specify where the configuration file position is.
+
+#### healthcheck
+
+> Do mongodb replset automatically.
 
 ## networks
 
