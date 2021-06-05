@@ -13,6 +13,7 @@ services:
                 depends_on:
                         - create_user
                         - list_users
+                restart: always
 
         database_primary:
                 container_name: primary_mongodb
@@ -24,6 +25,7 @@ services:
                         - 27010
                 networks:
                         - databases
+                restart: on-failure
                 entrypoint:
                         ['mongod', '--replSet', 'RSDB', '--port', '27010', '--dbpath', '/data/db', '--config', '/resource/mongod.yml']
                 healthcheck:

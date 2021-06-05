@@ -53,6 +53,17 @@ Rebuild after editing docker-compose.yml or Dockerfile.
 
 	add `--rebuild` arg
 
+### Delete unused images
+If you re-build your docker-compose often, then using this to clean up the unused images.
+
+	docker image prune
+
+	docker container prune
+
+	docker volume prune
+
+remember to press `y & return` confirm the changes, have your space.
+
 # Summary
 
 ## The course
