@@ -36,6 +36,7 @@ def create_user():
         else:
             res['success'] = False
             res['message'] = 'Error occurred when proccessing request.'
+            res = make_response(jsonify(res), 400)
     else:
         res['success'] = False
         res['message'] = 'Error occurred when parsing data.'
