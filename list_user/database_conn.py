@@ -21,17 +21,54 @@ def _disconnect_database(client):
         client.close()
     return None
 
-def find_collection(host, port, sort=None, query={}):
+def _find_collection(host, port, query={}, query2=None, sort=None):
     # If find no result returns None, so use False to instead of error.
     result = False
-    if type(query) == dict:
+    if type(query)==dict or query==None:
         client = __connect_database(host, port)
         if client != None:
             collect = _database_cursor(client)
             if collect != None:
                 if sort == None:
                     # datatype: list
+                    if query2 == None:
+                        result = list(collect.find(query))
+                        if query == None:
+                            result = list(collect.find())
+                    else:
+                        result = list(collect.find(query, query2))
+                else:
+                    if query2 == None:
+                        result = list(collect.find(query).sort(sort, ASCENDING))
+                    else:
+                        result = list(collect.find(query, query2)).sort(sort, ASCENDING)
+            client = _disconnect_database(client)
+    return result
+
+def find_collection(host, port, query={}, sort=None):
+    result = False
+    if type(query)==dict or query==None:
+        client = __connect_database(host, port)
+        if client != None:
+            collect = _database_cursor(client)
+            if collect != None:
+                if sort == None:
                     result = list(collect.find(query))
+                else:
+                    result = list(collect.find(query).sort(sort, ASCENDING))
+            client = _disconnect_database(client)
+    return result
+
+
+def find_only_collection(host, port, query={}, sort=None):
+    result = False
+    if type(query)==dict or query==None:
+        client = __connect_database(host, port)
+        if client != None:
+            collect = _database_cursor(client)
+            if collect != None:
+                if sort == None:
+                    result = list(collect.find({}, query))
                 else:
                     result = list(collect.find(query).sort(sort, ASCENDING))
             client = _disconnect_database(client)
