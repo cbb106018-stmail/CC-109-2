@@ -38,7 +38,7 @@ services:
                                 "--port",
                                 "27010",
                                 "--eval",
-                                'rs.initiate({"_id":"RSDB","members":[{"_id":0,"host":"database_primary:27010"},{"_id":1,"host":"database_write:27017"},{"_id":2,"host":"database_read:27018"}]});'
+                                'rs.initiate({"_id":"RSDB","members":[{"_id":0,"host":"database_primary:27010"},{"_id":1,"host":"database_write:27017","priority":2},{"_id":2,"host":"database_read:27018"}]});'
                                 ]
                         interval: 15s
                         start_period: 30s

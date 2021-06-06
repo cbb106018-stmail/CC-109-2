@@ -39,14 +39,32 @@ or use cURL
 	curl -X POST -H "Content-Type: application/json" -d '{"username": "username", "password": "password"}' http://35.194.201.93/create_user
 
 ## Docker Compose
+
+### Alias
+I set up the alias for my machine, edit your shell setting like `~/.bashrc` or `~/.zshrc`.
+
+	alias compose='docker-compose'
+
+Also, I use alias for `docker-compose -f` to build specific setting for development environment.
+
 ### Start-up
 Argument `-d` means run as daemon / detach mode.
 
+Another argument `-f` with setting file behind can define what compose setting you use, and this MUST put in front of `up` or `start`.
+
 	docker-compose up -d 
+
+	docker-compose start -d
+
+If you used `docker-compose up` to build and stop with `docker-compose stop` last time, you can `start` container next you start it.
 
 ### Shut-down
 
+	docker-compose stop
+
 	docker-compose down
+
+Using `down` to stop and delete container, adding `-v` behind will delete volume at the same time.
 
 ### Rebuild
 Rebuild after editing docker-compose.yml or Dockerfile.
@@ -62,7 +80,7 @@ If you re-build your docker-compose often, then using this to clean up the unuse
 
 	docker volume prune
 
-remember to press `y & return` confirm the changes, have your space.
+Remember to press `y & return` confirm the changes, have your space. :blush:
 
 # Summary
 
