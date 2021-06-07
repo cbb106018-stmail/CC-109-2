@@ -58,6 +58,14 @@ Another argument `-f` with setting file behind can define what compose setting y
 
 If you used `docker-compose up` to build and stop with `docker-compose stop` last time, you can `start` container next you start it.
 
+### Bash
+Getting into the container bash to set up config.
+
+	docker-compose -f docker-compose.yml exec $SERVICE_NAME bash
+
+Of cource you can specific other compose setting file here.
+:warning: P.S. Remenber to use `SERVICE NAME`, not `CONTAINER NAME` here.
+
 ### Shut-down
 
 	docker-compose stop
@@ -113,7 +121,7 @@ Settings of docker-compose.
 
 > Specific the member to be a primary, or downgrade the member from secondary to arbiter.
 
-### pymongo
+### PyMongo
 PyMongo can access mongodb from python easily.
 
 #### conn\_database.py
@@ -121,18 +129,47 @@ PyMongo can access mongodb from python easily.
 
 ##### find\_collection
 
-	find\_collection(host, port, query={}, sort=None)
+	find_collection(host, port, query={}, sort=None)
 
-	Param `query` must be a dict type, find specific column like {'name': 'Daniel'}, use None can find all documents in collection.
-	Param `sort` can sort ascending by column, sort need to be a string, like 'timestamp'.
+Param `query` must be a dict type, find specific column like {'name': 'Daniel'}, use None can find all documents in collection.
 
-#### find\_only\_collection
+Param `sort` can sort ascending by column, sort need to be a string, like 'timestamp'.
 
-	find\_only\_collection(host, port, query={}, sort=None)
+##### find\_only\_collection
 
-	As same as last function, also with same type limitation of parameters.
-	The difference between function `find\_collection`, add one `{}` in front of the param `query`, so now can use to limit the finding data.
-	For example, `query={'_id", 0}' now replace to `{}, {'_id': 0}`, this means find the documents without showing `_id` column.
+	find_only_collection(host, port, query={}, sort=None)
+
+> Use find\_only\_collection with `None query` equals to call find\_collection with `default empty dict query`.
+
+As same as last function, also with same type limitation of parameters.
+
+The difference between function `find\_collection`, add one `{}` in front of the param `query`, so now can use to limit the finding data.
+
+For example, `query={'_id", 0}' now replace to `{}, {'_id': 0}`, this means find the documents without showing `_id` column.
+
+##### count\_collection
+
+	count_collection(host, port, query={})
+
+The function returns count number of query document.
+
+##### count\_advanced\_collection
+
+	count_advanced_collection(host, port, query={})
+
+##### insert\_collection
+
+	insert_collection(host, port, document, timestamp=True)
+
+Param `document` must with dict type.
+
+Param `timestamp` means it will insert the document with the datetime, if timestamp equals to False, insertion data will not attached with time automatically.
+
+##### insert\_many\_collection
+
+	insert_many_collection(host, port, documents, timestamp=True)
+
+Param `documents` needs to be a list type data, except this, same as function `insert\_collection`.
 
 ## networks
 
