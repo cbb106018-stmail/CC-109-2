@@ -109,6 +109,15 @@ Settings of docker-compose.
 
 > Do mongodb replset automatically.
 
+##### priority
+
+> Specific the member to be a primary, or downgrade the member from secondary to arbiter.
+
+#### database connection
+
+> Using function to access the database from import `conn_database.py`.
+
 ## networks
 
 ![docker-compose networks](https://i.imgur.com/PZ1eZ0M.png)
+
