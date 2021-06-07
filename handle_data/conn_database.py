@@ -1,10 +1,16 @@
-from pymongo import MongoClient, ASCENDING
+from pymongo import MongoClient, ASCENDING, errors
 import datetime
 
-def __connect_database(host, port=27017):
+def __connect_database(host, port=27017, timeout=5, debug=False):
     if host != None and host!='':
-        client = MongoClient(host=host, port=port)
-        return client
+        try: 
+            client = MongoClient(host=host, port=port, serverSelectionTimeoutMS=timeout)
+            return client
+        except errors.ServerSelectionTimeoutError as err:
+            if debug == True:
+                return err
+            else:
+                return None
     else:
         return None
 
@@ -20,6 +26,44 @@ def _disconnect_database(client):
     if client != None:
         client.close()
     return None
+
+def _is_client_alive(host, port, timeout=5, debug=False):
+    isalive = None
+    try:
+        client = __connect_database(host, port, timeout, debug)
+        if client != None:
+            collect = _database_cursor(client)
+            if collect != None:
+                isalive = True
+            else:
+                isalive = False
+            _disconnect_database(client)
+        else:
+            isalive = False
+    except errors.ServerSelectionTimeoutError as err:
+        if debug == True:
+            isalive = err
+        else:
+            isalive = False
+
+def is_client_primary(host, port, timeout=5, debug=False):
+    isprimary = None
+    isalive = _is_client_alive(host, port, timeout, debug)
+    if isalive == True:
+        client = __connect_database(host, port, timeout, debug)
+        if client != None:
+            try:
+                isprimary = client.is_primary
+            except errors.ServerSelectionTimeoutError as err:
+                if debug == True:
+                    isprimary = err
+                else:
+                    isprimary = None
+            _disconnect_database(client)
+    else:
+        isprimary = None
+    return isprimary
+
 
 def _find_collection(host, port, query={}, query2=None, sort=None):
     # If find no result returns None, so use False to instead of error.
@@ -58,7 +102,6 @@ def find_collection(host, port, query={}, sort=None):
                     result = list(collect.find(query).sort(sort, ASCENDING))
             client = _disconnect_database(client)
     return result
-
 
 def find_only_collection(host, port, query={}, sort=None):
     result = False
