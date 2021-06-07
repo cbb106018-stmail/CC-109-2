@@ -109,13 +109,30 @@ Settings of docker-compose.
 
 > Do mongodb replset automatically.
 
-##### priority
+#### priority
 
 > Specific the member to be a primary, or downgrade the member from secondary to arbiter.
 
-#### database connection
+### pymongo
+PyMongo can access mongodb from python easily.
 
+#### conn\_database.py
 > Using function to access the database from import `conn_database.py`.
+
+##### find\_collection
+
+	find\_collection(host, port, query={}, sort=None)
+
+	Param `query` must be a dict type, find specific column like {'name': 'Daniel'}, use None can find all documents in collection.
+	Param `sort` can sort ascending by column, sort need to be a string, like 'timestamp'.
+
+#### find\_only\_collection
+
+	find\_only\_collection(host, port, query={}, sort=None)
+
+	As same as last function, also with same type limitation of parameters.
+	The difference between function `find\_collection`, add one `{}` in front of the param `query`, so now can use to limit the finding data.
+	For example, `query={'_id", 0}' now replace to `{}, {'_id': 0}`, this means find the documents without showing `_id` column.
 
 ## networks
 
