@@ -64,6 +64,7 @@ Getting into the container bash to set up config.
 	docker-compose -f docker-compose.yml exec $SERVICE_NAME bash
 
 Of cource you can specific other compose setting file here.
+
 :warning: P.S. Remenber to use `SERVICE NAME`, not `CONTAINER NAME` here.
 
 ### Shut-down
@@ -127,6 +128,8 @@ PyMongo can access mongodb from python easily.
 #### conn\_database.py
 > Using function to access the database from import `conn_database.py`.
 
+There are guides about what functions provide in this python file below.
+
 ##### find\_collection
 
 	find_collection(host, port, query={}, sort=None)
@@ -139,13 +142,15 @@ Param `sort` can sort ascending by column, sort need to be a string, like 'times
 
 	find_only_collection(host, port, query={}, sort=None)
 
-> Use find\_only\_collection with `None query` equals to call find\_collection with `default empty dict query`.
+> Use find\_only\_collection with `query=None` equals to call find\_collection with `query={}`.
 
 As same as last function, also with same type limitation of parameters.
 
-The difference between function `find\_collection`, add one `{}` in front of the param `query`, so now can use to limit the finding data.
+The difference between function `find_collection`, add one `{}` in front of the param `query`, <br>
+so now can use to limit the finding data.
 
-For example, `query={'_id", 0}' now replace to `{}, {'_id': 0}`, this means find the documents without showing `_id` column.
+For example, `query={'_id", 0}` now replace to `{}, {'_id': 0}`.<br>
+This means find the documents without showing `_id` column.
 
 ##### count\_collection
 
@@ -163,13 +168,14 @@ The function returns count number of query document.
 
 Param `document` must with dict type.
 
-Param `timestamp` means it will insert the document with the datetime, if timestamp equals to False, insertion data will not attached with time automatically.
+Param `timestamp` means it will insert the document with the datetime, <br>
+if with param `timestamp=False`, insertion data will not attached with time automatically.
 
 ##### insert\_many\_collection
 
 	insert_many_collection(host, port, documents, timestamp=True)
 
-Param `documents` needs to be a list type data, except this, same as function `insert\_collection`.
+Param `documents` needs to be a list type data, except this, same as function `insert_collection`.
 
 ## networks
 

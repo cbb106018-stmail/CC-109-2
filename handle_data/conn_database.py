@@ -3,7 +3,8 @@ import datetime
 
 def __connect_database(host, port=27017, timeout=5, debug=False):
     if host != None and host!='':
-        try: 
+        try:
+            # Do not let timeout as 0ms, or will report error.
             client = MongoClient(host=host, port=port, serverSelectionTimeoutMS=timeout)
             return client
         except errors.ServerSelectionTimeoutError as err:
@@ -28,41 +29,42 @@ def _disconnect_database(client):
     return None
 
 def _is_client_alive(host, port, timeout=5, debug=False):
-    isalive = None
+    isAlive = None
     try:
         client = __connect_database(host, port, timeout, debug)
         if client != None:
             collect = _database_cursor(client)
             if collect != None:
-                isalive = True
+                isAlive = True
             else:
-                isalive = False
+                isAlive = False
             _disconnect_database(client)
         else:
-            isalive = False
+            isAlive = False
     except errors.ServerSelectionTimeoutError as err:
         if debug == True:
-            isalive = err
+            isAlive = err
         else:
-            isalive = False
+            isAlive = False
+    return isAlive
 
 def is_client_primary(host, port, timeout=5, debug=False):
-    isprimary = None
-    isalive = _is_client_alive(host, port, timeout, debug)
-    if isalive == True:
+    isPrimary = None
+    isAlive = _is_client_alive(host, port, timeout, debug)
+    if isAlive == True:
         client = __connect_database(host, port, timeout, debug)
         if client != None:
             try:
-                isprimary = client.is_primary
+                isPrimary = client.is_primary
             except errors.ServerSelectionTimeoutError as err:
                 if debug == True:
-                    isprimary = err
+                    isPrimary = err
                 else:
-                    isprimary = None
+                    isPrimary = None
             _disconnect_database(client)
     else:
-        isprimary = None
-    return isprimary
+        isPrimary = None
+    return isPrimary
 
 
 def _find_collection(host, port, query={}, query2=None, sort=None):
