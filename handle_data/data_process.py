@@ -32,7 +32,7 @@ def insert_data(dataPair, allowDuplicate=True, uniqueDict=None):
     # Param dataPair must be dict
     state = type(dataPair)
     if dataPair!=None and type(dataPair)==dict:
-        if conn.is_client_primary(host, port):
+        if conn.is_client_primary(host, port) == True:
             isDuplicated = None
             state='a'
             if allowDuplicate != True and uniqueDict!=None and type(uniqueDict)==dict:
