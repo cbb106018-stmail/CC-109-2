@@ -4,6 +4,7 @@ import json
 host = "database_write"
 port = 27017
 
+# In here, username is case-sensitive.
 def create_account(incomingData):
     success = None
     if incomingData != None:
@@ -35,28 +36,18 @@ def insert_data(dataPair, allowDuplicate=True, uniqueDict=None):
     if dataPair!=None and type(dataPair)==dict:
         if conn.is_client_primary(host, port) == True:
             isDuplicated = None
-            state='a'
             if allowDuplicate != True and uniqueDict!=None and type(uniqueDict)==dict:
-                state='b'
                 count = conn.count_collection(host, port, uniqueDict)
                 if conn.count_collection(host, port, uniqueDict) == 0:
-                    state='c'
                     isDuplicated = False
                 else:
-                    state='d'
                     isDuplicated = True
             if isDuplicated == None or isDuplicated == False:
-                state='e'
                 result = conn.insert_collection(host, port, dataPair)
                 if result:
-                    state='f'
                     success = True
                 else:
-                    state='g'
                     success = False
             else:
-                state=isDuplicated
                 success = False
-    #return success
-    return count
-
+    return success

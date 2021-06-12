@@ -48,6 +48,8 @@ def check_username_existing():
     res = dict()
     if isExistingData:
         if user_input_name!=None and user_input_name!='':
+            # Convert username to lower-case.
+            user_input_name = lower(user_input_name)
             isUsernameDuplicated = is_username_existing(user_input_name)
             res['success'] = True
             if not isUsernameDuplicated:

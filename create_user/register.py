@@ -30,6 +30,8 @@ def create_user():
 
     res = dict()
     if isExistingData:
+        # Convert username to lower case here.
+        username = lower(username)
         user_info['username'] = username
         user_info['password'] = password
         user_info['userrole'] = userrole

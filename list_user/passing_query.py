@@ -16,6 +16,7 @@ def listing_user():
         userList = conn.find_only_collection(host, port, query={'password': 0})
     return userList
 
+# Username is case-sensitive here.
 def is_username_existing(username):
     isExisting = None
     if conn.is_client_primary(host, port) != None:
