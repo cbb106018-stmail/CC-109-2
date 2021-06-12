@@ -22,7 +22,8 @@ def parse_account(jsonData):
     if type(jsonData) == str:
         jsonData = str_json_conv(jsonData)
     if 'username' in jsonData and 'password' in jsonData:
-        dictData = {'username': jsonData.get('username'), 'password': jsonData.get('password')}
+        userrole = jsonData.get('userrole') or 'user'
+        dictData = {'username': jsonData.get('username'), 'password': jsonData.get('password'), 'userrole': userrole}
     return dictData
 
 def insert_data(dataPair, allowDuplicate=True, uniqueDict=None):

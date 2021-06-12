@@ -18,18 +18,24 @@ def create_user():
         isExistingData = True
         username = json.dumps(jsonobj['username']).replace("\"", "")
         password = json.dumps(jsonobj['password']).replace("\"", "")
+        if 'userrole' in jsonobj:
+            userrole = json.dumps(jsonobj['userrole']).replace("\"", "")
+        else:
+            userrole = None
     elif request.values.get('username')!=None and request.values.get('password')!=None:
         isExistingData = True
         username = request.values.get('username')
         password = request.values.get('password')
+        userrole = request.values.get('userrole')
 
     res = dict()
     if isExistingData:
         user_info['username'] = username
         user_info['password'] = password
-        isRequestCompleted = pass_on(user_info) or False
+        user_info['userrole'] = userrole
+        isRequestCompleted = pass_on(user_info)
 
-        if isRequestCompleted:
+        if isRequestCompleted == True:
             res['success'] = True
             res['message'] = 'User created successfully: ' + username + ' .'
             res = make_response(jsonify(res), 200)
@@ -41,16 +47,6 @@ def create_user():
         res['success'] = False
         res['message'] = 'Error occurred when parsing data.'
         res = make_response(jsonify(res), 500)
-    return res
-
-@app.route('/', methods=['POST'])
-def index():
-    jsonobj = request.get_json(silent=True)
-    msg = json.dumps(jsonobj['message']).replace("\"", "") or "empty"
-    res = dict()
-    res['success'] = True
-    res['message'] = 'Hello from index, and this is the message you just left: ' + msg
-    res = make_response(jsonify(res), 200)
     return res
 
 if __name__ == '__main__':

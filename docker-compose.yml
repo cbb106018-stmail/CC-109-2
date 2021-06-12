@@ -50,7 +50,7 @@ services:
                 image: mongo
                 volumes:
                         - ./database/config/mongod.yml:/resource/mongod.yml
-                        - ./database/data/writer
+                        - ./database/data/writer:/data/db
                 expose:
                         - 27017
                 networks:
