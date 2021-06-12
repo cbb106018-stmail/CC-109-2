@@ -4,7 +4,29 @@ from passing_query import listing_user, is_username_existing
 
 app = Flask(__name__)
 
-swagger = Swagger(app)
+app.config['SWAGGER'] = {
+    'title': 'APIDOCS for list_users',
+    'uiversion': 3
+}
+
+swagger_config = {
+    "headers": [
+        ],
+    "specs": [
+        {
+            "endpoint": 'apispec_1',
+            "route": '/apispec_1.json',
+            "rule_filter": lambda rule: True,
+            "model_filter": lambda tag: True,
+        }
+    ],
+    "static_url_path": "/flasgger_static",
+    "swagger_ui": True,
+    "specs_route": "/apidocs/",
+    "url_prefix": "/list_users"
+}
+
+swagger = Swagger(app, config=swagger_config)
 
 @app.route('/list_users', methods=['GET'])
 @swag_from('apidocs/api_list_user.yml')
