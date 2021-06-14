@@ -1,31 +1,130 @@
-This is an endpoint for testing request body documentation.
----
-description: User recongnition, request Token.
-parameters:
-        - name: body
-          in: body
-          required: True
-          schema:
-                  required:
-                          - username
-                          - password
-                  properties:
-                          username:
-                                  type: string
-                                  description: username
-                                  example: "cbb106018"
-                          password:
-                                  type: string
-                                  example: "passphrase"
+openapi: 3.0.2
 
-responses:
-        200:
-                description: request processed successfully
-                schema:
-                        properties:
-                                success:
-                                        type: boolean
-                                        example: True
-                                message:
-                                        type: string
-                                        example: user created
+info:
+        title: APIDOCS for create user
+        description:
+                User account create service
+        version: 1.0.0
+
+servers:
+        - url: http://104.46.235.6
+          description: Main api server ip
+
+paths:
+        /create_user:
+                post:
+                        summary: Pass-on account info to AMQP service, waiting for create user.
+
+                        requestBody:
+                                required: true
+                                content:
+                                        application/json:
+                                                schema:
+                                                        type: object
+                                                        properties:
+                                                                username:
+                                                                        type: string
+                                                                        description: The username to sign up
+                                                                        example: cbb106018
+                                                                password:
+                                                                        type: string
+                                                                        description: The password user entered
+                                                                        example: secret
+                                                                userrole:
+                                                                        type: string
+                                                                        description: User role of the account
+                                                                        example: user
+                                                        required:
+                                                                - username
+                                                                  password
+
+                                        application/x-www-form-urlencoded:
+                                                schema:
+                                                        type: object
+                                                        properties:
+                                                                username:
+                                                                        type: string
+                                                                        description: The username to sign up
+                                                                        example: cbb106018
+                                                                password:
+                                                                        type: string
+                                                                        description: The password user entered
+                                                                        example: secret
+                                                                userrole:
+                                                                        type: string
+                                                                        description: User role of the account
+                                                                        example: user
+                                                        required:
+                                                                - username
+                                                                  password
+                                                encoding:
+                                                        username:
+                                                                allowReserved: true
+                                                        password:
+                                                                allowReserved: true
+
+                        responses:
+                                  '200':
+                                        description: Status OK&#58; request sent to AMQP service successful
+                                        content:
+                                                application/json:
+                                                        schema:
+                                                                type: object
+                                                                properties:
+                                                                        success:
+                                                                                type: boolean
+                                                                                description: Boolean to show result of processing.
+                                                                                example: True
+                                                                        message:
+                                                                                type: string
+                                                                                description: Message about sending request success or not.
+                                                                                example: OK for User create request successfully sent to the queue&#58; CBB106018.
+                                  '400':
+                                        description: Bad Request&#58; data received is wrong type or totally empty.
+                                        content:
+                                                application/json:
+                                                        schema:
+                                                                type: object
+                                                                properties:
+                                                                        success:
+                                                                                type: boolean
+                                                                                description: Boolean to show result of processing.
+                                                                                example: False
+                                                                        message:
+                                                                                type: string
+                                                                                description: Massage about sending request success or not.
+                                                                                example: Error from request, occurred when processing request.
+                                  '500':
+                                        description: Internal Server Error&#58; failed to parse data, request do not been send.
+                                        content:
+                                                application/json:
+                                                        schema:
+                                                                type: object
+                                                                properties:
+                                                                        success:
+                                                                                type: boolean
+                                                                                description: Boolean to show result of processing.
+                                                                                example: False
+                                                                        message:
+                                                                                type: string
+                                                                                description: Message about sending request success or not.
+                                                                                example: Error from internal server, occurred when parsing data.
+
+                                  default:
+                                        description: Internal Server Error&#58; failed to parse data, request do not been send.
+                                        content:
+                                                application/json:
+                                                        schema:
+                                                                type: object
+                                                                properties:
+                                                                        success:
+                                                                                type: boolean
+                                                                                description: Boolean to show result of processing.
+                                                                                example: False
+                                                                        message:
+                                                                                type: string
+                                                                                description: Message about sending request success or not.
+                                                                                example: Error from internal server, occurred when parsing data.
+
+
+

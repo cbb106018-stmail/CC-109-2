@@ -1,13 +1,14 @@
 from flask import Flask, request, json, jsonify, make_response
-from flasgger import Swagger, swag_from
+from flasgger import Swagger, SwaggerView, Schema, swag_from
 from sender import pass_on
 
-app = Flask(__name__)
 
 app = Flask(__name__)
 app.config['SWAGGER'] = {
     'title': 'APIDOCS for create_user',
-    'uiversion': 3
+    'openapi': '3.0.2',
+    'uiversion': '3',
+    'optional_fields': ['components']
 }
 
 swagger_config = {
@@ -24,10 +25,35 @@ swagger_config = {
     "static_url_path": "/flasgger_static",
     "swagger_ui": True,
     "specs_route": "/apidocs/",
-    "url_prefix": "/create_user"
+    "url_prefix": "/api/create_user"
 }
 
-swagger = Swagger(app, config=swagger_config)
+template = {
+  "swagger": "3.0",
+  "info": {
+    "title": "APIDOCS for create user service",
+    "description": "User create API",
+    "contact": {
+      "responsibleOrganization": "CBB106018",
+      "responsibleDeveloper": "CBB106018",
+      "email": "cbb106018@nptu.edu.tw",
+      "url": None,
+    },
+    "termsOfService": None,
+    "version": "1.0.0"
+  },
+  "host": "104.46.235.6",
+  "basePath": "/api",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "components": {
+      "schemas":    {}
+    }
+}
+
+swagger = Swagger(app, config=swagger_config, template=template)
 
 @app.route('/create_user', methods=['POST'])
 @swag_from('apidocs/api_create_user.yml')
@@ -54,7 +80,9 @@ def create_user():
     res = dict()
     if isExistingData:
         # Convert username to lower case here.
-        username = lower(username)
+        username = username.lower()
+        if userrole == None:
+            userrole = 'user'
         user_info['username'] = username
         user_info['password'] = password
         user_info['userrole'] = userrole
@@ -62,11 +90,11 @@ def create_user():
 
         if isRequestCompleted == True:
             res['success'] = True
-            res['message'] = 'User created successfully: ' + username + ' .'
+            res['message'] = 'User create request successfully sent to the queue: ' + username + '.'
             res = make_response(jsonify(res), 200)
         else:
             res['success'] = False
-            res['message'] = 'Error occurred when proccessing request.'
+            res['message'] = 'Error occurred when processing request.'
             res = make_response(jsonify(res), 400)
     else:
         res['success'] = False
