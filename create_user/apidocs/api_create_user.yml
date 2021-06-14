@@ -4,6 +4,7 @@ info:
         title: APIDOCS for create user
         description:
                 User account create service
+        termsOfService: None
         version: 1.0.0
 
 servers:

@@ -1,0 +1,56 @@
+This is an endpoint for testing request body documentation.
+---
+description: User recongnition, request Token.
+parameters:
+        - name: body
+          in: body
+          required: True
+          schema:
+                  required:
+                          - username
+                  properties:
+                          username:
+                                  type: string
+                                  description: username
+                                  example: "cbb106018"
+
+responses:
+        200:
+                description: Request processed successfully
+                schema:
+                        properties:
+                                success:
+                                        type: boolean
+                                        example: True
+                                message:
+                                        type: string
+                                        example: Username 'cbb106018' is duplicated.
+                                duplicated:
+                                        type: boolean
+                                        example: True
+        400:
+                description: Error occurred, wrong incoming data or totally empty.
+                schema:
+                        properties:
+                                success:
+                                        type: boolean
+                                        example: False
+                                message:
+                                        type: string
+                                        example: Error occurred when parsing request value.
+                                duplicated:
+                                        type: boolean
+                                        example: True
+        500:
+                decsription: Error occurred, internal server down or app runtime exception happens.
+                schema:
+                        properties:
+                                success:
+                                        type: boolean
+                                        example: False
+                                message:
+                                        type: string
+                                        example: Error occurred when dealing with request.
+                                duplicated:
+                                        type: boolean
+                                        example: True

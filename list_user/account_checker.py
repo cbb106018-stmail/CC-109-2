@@ -43,11 +43,11 @@ def list_users():
         res['userlist'] = {}
         res = make_response(jsonify(res), 500)
     elif type(userLists) == list:
-        res['message'] = 'Query execute successful.'
+        res['message'] = 'Query executed successful.'
         res['success'] = True
         userlist = dict()
         for user in range(0, len(userLists)):
-            userlist['user_'+str(user)] = userLists[user]
+            userlist['user_'+str(user+1)] = userLists[user]
         #res['userlist'] = json.dumps(userlist).replace("\"", "\'")
         res['userlist'] = userlist
         res = make_response(jsonify(res), 200)
@@ -90,12 +90,12 @@ def check_username_existing():
         else:
             res['success'] = False
             res['duplicated'] = True
-            res['message'] = 'Error occured when dealing with request.'
+            res['message'] = 'Error occurred when parsing request value.'
             res = make_response(jsonify(res), 400)
     else:
         res['success'] = False
         res['duplicated'] = True
-        res['message'] = 'Error occured when parsing request value.'
+        res['message'] = 'Error occurred when dealing with request.'
         res = make_response(jsonify(res), 500)
     return res
 

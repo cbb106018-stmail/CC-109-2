@@ -1,26 +1,17 @@
 This is an endpoint for testing request body documentation.
 ---
-description: User recongnition, request Token.
+description: Service returns a json object with user list.
+
 parameters:
-        - name: body
-          in: body
-          required: True
-          schema:
-                  required:
-                          - username
-                          - password
-                  properties:
-                          username:
-                                  type: string
-                                  description: username
-                                  example: "cbb106018"
-                          password:
-                                  type: string
-                                  example: "passphrase"
+        - name: query
+          in: query
+          type: string
+          default: ' '
+          description: Avoid from 404 not found
 
 responses:
         200:
-                description: request processed successfully
+                description: Request processed successfully
                 schema:
                         properties:
                                 success:
@@ -28,4 +19,22 @@ responses:
                                         example: True
                                 message:
                                         type: string
-                                        example: user created
+                                        example: Query executed successful.
+                                userlist:
+                                        type: dict
+                                        example: {"user_1": "{'username': 'cbb106018', 'password': 'secret', 'userrole': 'admin', 'timestamp': '2021/06/01 05:24:22'}"}
+
+        500:
+                description: Internal server error
+                schema:
+                        properties:
+                                success:
+                                        type: boolean
+                                        example: False
+                                message:
+                                        type: string
+                                        example: No data existing.
+                                userlist:
+                                        type: dict
+                                        example: {}
+
