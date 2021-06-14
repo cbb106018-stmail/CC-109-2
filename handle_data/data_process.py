@@ -23,7 +23,9 @@ def parse_account(jsonData):
     if type(jsonData) == str:
         jsonData = str_json_conv(jsonData)
     if 'username' in jsonData and 'password' in jsonData:
-        userrole = jsonData.get('userrole') or 'user'
+        userrole = jsonData.get('userrole')
+        if userrole == None:
+            userrole = 'user'
         dictData = {'username': jsonData.get('username'), 'password': jsonData.get('password'), 'userrole': userrole}
     return dictData
 

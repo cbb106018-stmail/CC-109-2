@@ -8,12 +8,14 @@ def _admin_listing_user():
     userList = None
     if conn.is_client_primary(host, port):
         userList = conn.find_collection(host, port)
-    return userList
+    #return userList
+    # function not already because the result not convert to right format yet
+    # mongodb id will cause error when dump to json
 
 def listing_user():
     userList = None
     if conn.is_client_primary(host, port) != None:
-        userList = conn.find_only_collection(host, port, query={'password': 0})
+        userList = conn.find_only_collection(host, port, query={'_id': 0, 'password': 0})
     return userList
 
 # Username is case-sensitive here.

@@ -23,7 +23,7 @@ swagger_config = {
     "static_url_path": "/flasgger_static",
     "swagger_ui": True,
     "specs_route": "/apidocs/",
-    "url_prefix": "/list_users"
+    "url_prefix": "/api/list_users"
 }
 
 swagger = Swagger(app, config=swagger_config)
@@ -36,14 +36,20 @@ def list_users():
     #res['username_2'] = 'Taylor'
     #res['username_3'] = 'Jacob'
     #res = make_response(jsonify(res), 200)
-    userList = listing_user()
-    if userList == None:
+    userLists = listing_user()
+    if userLists == None:
         res['message'] = 'No data existing.'
+        res['success'] = False
+        res['userlist'] = {}
         res = make_response(jsonify(res), 500)
-    else:
-        #for each in userList.items():
-
-        res['user_list'] = userList
+    elif type(userLists) == list:
+        res['message'] = 'Query execute successful.'
+        res['success'] = True
+        userlist = dict()
+        for user in range(0, len(userLists)):
+            userlist['user_'+str(user)] = userLists[user]
+        #res['userlist'] = json.dumps(userlist).replace("\"", "\'")
+        res['userlist'] = userlist
         res = make_response(jsonify(res), 200)
     return res
 
@@ -71,7 +77,7 @@ def check_username_existing():
     if isExistingData:
         if user_input_name!=None and user_input_name!='':
             # Convert username to lower-case.
-            user_input_name = lower(user_input_name)
+            user_input_name = user_input_name.lower()
             isUsernameDuplicated = is_username_existing(user_input_name)
             res['success'] = True
             if not isUsernameDuplicated:
