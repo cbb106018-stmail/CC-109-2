@@ -1,0 +1,8 @@
+Flask
+wtforms
+Flask-wtf
+Flask-Login
+Flask-Bootstrap
+Werkzeug
+Requests
+uWSGI

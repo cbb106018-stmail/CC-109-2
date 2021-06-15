@@ -1,0 +1,5 @@
+import os
+
+class Config:
+    pjdir = os.path.abspath(os.path.dirname(__file__))
+    SECRET_KEY = b']k\x8cY\xd4\x12\xcf\x9dG\x1a\xb7\x1d\xce\x04@\xfa\xcc+\x0b\x81\xe3\x9b\xe1\xbf'

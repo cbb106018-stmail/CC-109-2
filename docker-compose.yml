@@ -126,6 +126,16 @@ services:
                 depends_on:
                         - database_read
 
+        website:
+                container_name: website_service
+                build: websites
+                volumes:
+                        - ./websites:/websites
+                expose:
+                        - 8080
+                networks:
+                        - web_request
+
 networks:
         default:
                 name: external_network
