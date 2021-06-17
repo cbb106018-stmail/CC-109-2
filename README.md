@@ -14,9 +14,9 @@ With correct data format, you'll get `200 response`; or you'll get back `400/500
 
 > It only supports http request right now.
 
-### IP Address
+### Domain Name
 
-	35.194.201.93
+	api.danhsu.tech
 
 Use Postman to send request.
 
@@ -32,11 +32,11 @@ or use cURL
 
 ### GET Method
 
-	curl -X GET http://35.194.201.93/list_users
+	curl -X GET http:/api.danhsu.tech/list_users
 
 ### POST Method
 
-	curl -X POST -H "Content-Type: application/json" -d '{"username": "username", "password": "password"}' http://35.194.201.93/create_user
+	curl -X POST -H "Content-Type: application/json" -d '{"username": "username", "password": "password"}' http://api.danhsu.tech/create_user
 
 ## Docker Compose
 
